@@ -26,6 +26,7 @@ namespace BulkyWeb.Controllers
         [HttpPost]
         public IActionResult Create(Category category)
         {
+            ModelState.Remove("Id");
             if(category.Name == category.DisplayOrder.ToString())
             {
                 ModelState.AddModelError("", "Name and Display Order cannot match!");
@@ -93,8 +94,8 @@ namespace BulkyWeb.Controllers
             }
             _dbContext.Categories.Remove(obj);
             _dbContext.SaveChanges();
-            TempData["success"] = "Category updated successfully!";
-            return RedirectToAction("Index");
+            TempData["success"] = "Category deleted successfully!";
+            return RedirectToAction("Index"); 
         }
     } 
 }
