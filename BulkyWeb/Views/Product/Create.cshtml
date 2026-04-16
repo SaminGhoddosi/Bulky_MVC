@@ -1,0 +1,65 @@
+﻿@model Product
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient m-lg-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-primary">Create Product</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <form method="post" class="row">
+            <div class="border pt-3">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="mb-3 row">
+                    <label asp-for="Name" class="p-0"></label>
+                    <input asp-for="Name" type="text" class="form-control" />
+                </div>
+                <div class="mb-3 row">
+                    <label asp-for="Description" class="p-0"></label>
+                    <textarea asp-for="Description" type="text" class="form-control"></textarea>
+                </div>
+                <div class="mb-3 row">
+                    <label asp-for="ISBN" class="p-0"></label>
+                    <input asp-for="ISBN" type="text" class="form-control" />
+                </div>
+                <div class="mb-3 row">
+                    <label asp-for="Author" class="p-0"></label>
+                    <input asp-for="Author" type="text" class="form-control" />
+                </div>
+                <div class="mb-3 row">
+                    <label asp-for="ListPrice" class="p-0"></label>
+                    <input asp-for="ListPrice" type="text" class="form-control" />
+                </div>
+                <div class="mb-3 row">
+                    <label asp-for="Price" class="p-0"></label>
+                    <input asp-for="Price" type="text" class="form-control" />
+                </div>
+                <div class="mb-3 row">
+                    <label asp-for="Price50" class="p-0"></label>
+                    <input asp-for="Price50" type="text" class="form-control" />
+                </div>
+                <div class="mb-3 row">
+                    <label asp-for="Price100" class="p-0"></label>
+                    <input asp-for="Price100" type="text" class="form-control" />
+                </div>
+                <div>
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-primary form-control">Create</button>
+                    </div>
+                    <div class="col-6  col-md-3">
+                        <a asp-action="Index" class="btn btn-outline-secondary border form-control">
+                            Back to list
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
