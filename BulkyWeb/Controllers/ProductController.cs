@@ -19,8 +19,8 @@ namespace BulkyWeb.Controllers
         }
         public IActionResult Index()
         {
-            var objectList = _unitOfWork.ProductRepository.GetAll().ToList();
-            return View(objectList);
+            List<Product> objectList = _unitOfWork.ProductRepository.GetAll(includeProperties:"Category").ToList();
+            return View(objectList); 
         }
 
         public IActionResult Upsert(int? id)
@@ -53,12 +53,20 @@ namespace BulkyWeb.Controllers
             ModelState.Remove("Id");
             if (ModelState.IsValid)
             {
-                string wwwRothPath = _webHostEnvironment.WebRootPath;
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
                 if(file != null)
                 {
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                    string productPath = Path.Combine(wwwRothPath, @"images/product");
+                    string productPath = Path.Combine(wwwRootPath, @"images/product");
 
+                    if (!string.IsNullOrEmpty(productVM.Product.ImageUrl))
+                    {
+                        var oldImagePath = Path.Combine(wwwRootPath, productVM.Product.ImageUrl.TrimStart('\\'));
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
                     using( var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
                     {
                         file.CopyTo(fileStream);
@@ -66,42 +74,47 @@ namespace BulkyWeb.Controllers
 
                     productVM.Product.ImageUrl = @"\images\product\" + fileName;
                 }
-                _unitOfWork.ProductRepository.Add(productVM.Product);
-                _unitOfWork.Save();
+                if(productVM.Product.Id == 0)
+                {
+                    _unitOfWork.ProductRepository.Add(productVM.Product);
+                }
+                else
+                {
+                    _unitOfWork.ProductRepository.Update(productVM.Product);
+                }
+                _unitOfWork.Save(); 
                 TempData["success"] = "Category created successfully!";
                 return RedirectToAction("index");
             }
             return View();
         }
 
-        
-
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var objectList = _unitOfWork.ProductRepository.GetAll(includeProperties: "Category").ToList();
+            return Json(new { data = objectList });
+        }
+        [HttpDelete]
         public IActionResult Delete(int? id)
         {
-            if (id == null || id == 0)
+            var productDelete = _unitOfWork.ProductRepository.Get(u => u.Id == id);
+            if(productDelete == null)
             {
-                return NotFound();
+                return Json(new { sucess = false, message = "Error while deleting" });
             }
-            Product? categoryFromDb = _unitOfWork.ProductRepository.Get(x => x.Id == id);
-            if (categoryFromDb == null)
+
+            var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, productDelete.ImageUrl.TrimStart('\\'));
+            if (System.IO.File.Exists(oldImagePath))
             {
-                return NotFound();
+                System.IO.File.Delete(oldImagePath);
             }
-            return View(categoryFromDb);
+
+            _unitOfWork.ProductRepository.Remove(productDelete);
+            _unitOfWork.Save();
+            var objectList = _unitOfWork.ProductRepository.GetAll(includeProperties: "Category").ToList();
+            return Json(new {sucess = false, message = "Delete Successful"});
         }
 
-        [HttpPost, ActionName("Delete")]
-        public IActionResult DeletePOST(int? id)
-        {
-            Product? obj = _unitOfWork.ProductRepository.Get(x => x.Id == id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            _unitOfWork.ProductRepository.Remove(obj);
-            _unitOfWork.Save();
-            TempData["success"] = "Category deleted successfully!";
-            return RedirectToAction("Index");
-        }
     }
 }

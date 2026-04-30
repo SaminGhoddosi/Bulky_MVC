@@ -22,7 +22,7 @@ namespace Bulky.Models
         [Required]
         public string ISBN { get; set; }
         [Required]
-        public string Author { get; set; }
+        public string Author {  get; set; }
 
         [Required]
         [Range(1, 10000)]
