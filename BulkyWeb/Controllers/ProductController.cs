@@ -1,6 +1,6 @@
 ﻿using Bulky.DataAccess.Repository.IRepository;
 using Bulky.DataAcess.Data;
-using Bulky.Models;
+using Bulky.Domain.Entities;
 using Bulky.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -19,7 +19,7 @@ namespace BulkyWeb.Controllers
         }
         public IActionResult Index()
         {
-            List<Product> objectList = _unitOfWork.ProductRepository.GetAll(includeProperties:"Category").ToList();
+            List<Book> objectList = _unitOfWork.ProductRepository.GetAll(includeProperties:"Category").ToList();
             return View(objectList); 
         }
 
@@ -33,7 +33,7 @@ namespace BulkyWeb.Controllers
                     Text = x.Name,
                     Value = x.Id.ToString()
                 }),
-                Product = new Product()
+                Product = new Book()
 
             };
             if (id == null || id == 0)

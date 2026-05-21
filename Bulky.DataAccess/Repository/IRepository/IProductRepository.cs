@@ -1,4 +1,4 @@
-﻿using Bulky.Models;
+﻿using Bulky.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Bulky.DataAccess.Repository.IRepository
 {
-    public interface IProductRepository : IRepository<Product>
+    public interface IProductRepository : IRepository<Book>
     {
-        void Update(Product obj);
+        void Update(Book obj);
     }
 }

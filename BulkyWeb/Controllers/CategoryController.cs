@@ -1,6 +1,6 @@
 ﻿using Bulky.DataAccess.Repository.IRepository;
 using Bulky.DataAcess.Data;
-using Bulky.Models;
+using Bulky.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 

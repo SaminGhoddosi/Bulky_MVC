@@ -1,4 +1,4 @@
-﻿using Bulky.Models;
+﻿using Bulky.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bulky.DataAcess.Data
@@ -11,6 +11,6 @@ namespace Bulky.DataAcess.Data
         }       
 
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Product> Products { get; set; }
+        public DbSet<Book> Products { get; set; }
     }
 }

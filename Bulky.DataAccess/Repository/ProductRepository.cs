@@ -1,6 +1,6 @@
 ﻿using Bulky.DataAccess.Repository.IRepository;
 using Bulky.DataAcess.Data;
-using Bulky.Models;
+using Bulky.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Bulky.DataAccess.Repository
 {
-    public class ProductRepository : Repository<Product>, IProductRepository
+    public class ProductRepository : Repository<Book>, IProductRepository
     {
         private ApplicationDbContext _db;
         public ProductRepository(ApplicationDbContext db) : base(db)
@@ -20,7 +20,7 @@ namespace Bulky.DataAccess.Repository
         }
 
 
-        public void Update(Product obj)
+        public void Update(Book obj)
         {
             var objFromDb = _db.Products.FirstOrDefault(x => x.Id == obj.Id);
             if(objFromDb != null)

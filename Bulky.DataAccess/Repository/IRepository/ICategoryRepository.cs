@@ -1,4 +1,4 @@
-﻿using Bulky.Models;
+﻿using Bulky.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
