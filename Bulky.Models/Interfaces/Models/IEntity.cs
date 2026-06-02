@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Bulky.Domain.Interfaces.Models
 {
-    public interface IEntity<TKey>
+    public interface IEntity
     {
-        TKey Id { get; }
+        int Id { get; set; }
     }
 
-    public class Entity : IEntity<int>
+    public class Entity : IEntity
     {
-        public int Id { get; }
+        public int Id { get; set; }
     }
 }
