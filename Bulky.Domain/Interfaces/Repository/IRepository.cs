@@ -1,5 +1,6 @@
 ﻿using Ardalis.Specification;
 using Bulky.Domain.Interfaces.Models;
+using Bulky.Paging;
 using System;
 using System.Linq.Expressions;
 
