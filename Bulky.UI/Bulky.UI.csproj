@@ -19,7 +19,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Bulky.Application\Bulky.Application.csproj" />
+    <ProjectReference Include="..\Bulky.Paging\Bulky.Paging.csproj" />
     <ProjectReference Include="..\Bulky.Utility\Bulky.Utils.csproj" />
+    <ProjectReference Include="..\Bulky.Utils\Bulky.Utils.csproj" />
   </ItemGroup>
 
   <ItemGroup>

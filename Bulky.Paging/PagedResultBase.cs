@@ -23,13 +23,7 @@
 
     public class PagedResult<T> : PagedResultBase
     {
-        public IList<T> Results { get; set; }
-        public IList<T> Data { get; set; }
-
-        public PagedResult()
-        {
-            Results = new List<T>();
-            Data = new List<T>();
-        }
+        public IList<T> Results { get; set; } = new List<T>();
+        public IList<T> Data { get; set; } = new List<T>();
     }
 }

@@ -17,8 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Bulky.Domain\Bulky.Domain.csproj" />
     <ProjectReference Include="..\Bulky.Models\Bulky.Domain.csproj" />
     <ProjectReference Include="..\Bulky.Utility\Bulky.Utils.csproj" />
+    <ProjectReference Include="..\Bulky.Utils\Bulky.Utils.csproj" />
   </ItemGroup>
 
 </Project>

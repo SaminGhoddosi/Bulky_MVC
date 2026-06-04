@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Bulky.DataAccess\Bulky.Infra.csproj" />
+    <ProjectReference Include="..\Bulky.Domain\Bulky.Domain.csproj" />
+    <ProjectReference Include="..\Bulky.Infra\Bulky.Infra.csproj" />
     <ProjectReference Include="..\Bulky.Models\Bulky.Domain.csproj" />
   </ItemGroup>
 
