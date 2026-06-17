@@ -19,8 +19,4 @@
 	  <ProjectReference Include="..\Bulky.Utility\Bulky.Utils.csproj" />
 	  <ProjectReference Include="..\Bulky.Utils\Bulky.Utils.csproj" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Services\" />
-	</ItemGroup>
 </Project>
