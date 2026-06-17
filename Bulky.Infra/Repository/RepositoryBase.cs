@@ -1,8 +1,9 @@
 ﻿using Ardalis.Specification;
-using Bulky.Domain.Interfaces.IServices;
+using Bulky.DataAcess.Data;
 using Bulky.Domain.Interfaces.Models;
 using Bulky.Domain.Interfaces.Repository;
 using Bulky.Paging;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,18 +11,26 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bulky.Domain.Services
+namespace Bulky.DataAccess.Repository
 {
-    public class DomainService<TEntity> : IDisposable, IDomainService<TEntity> where TEntity : IEntity
+    public class RepositoryBase<TEntity> : IDisposable, IRepository<TEntity> where TEntity : IEntity
     {
-        private readonly IRepository<TEntity> _repository;
-         
-        public DomainService(IRepository<TEntity> repository)
-        {
-            _repository = repository;
-        }
-        
         public Task<TEntity> AddAsync(TEntity entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddRange(params TEntity[] entities)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task AddRangeAsync(params TEntity[] entities)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task BulkInsertAsync(IList<TEntity> entities)
         {
             throw new NotImplementedException();
         }
@@ -76,7 +85,7 @@ namespace Bulky.Domain.Services
             throw new NotImplementedException();
         }
 
-        public Task<IReadOnlyList<TEntity>> ListAllAsync()
+        public Task<IEnumerable<TEntity>> ListAllAsync()
         {
             throw new NotImplementedException();
         }
@@ -86,12 +95,17 @@ namespace Bulky.Domain.Services
             throw new NotImplementedException();
         }
 
-        public Task<IReadOnlyList<TEntity>> ListAsync(ISpecification<TEntity> spec)
+        public Task<IEnumerable<TEntity>> ListAsync(ISpecification<TEntity> spec)
         {
             throw new NotImplementedException();
         }
 
         public Task<PagedResult<TEntity>> ListPagedAsync(ISpecification<TEntity> spec, int page, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RemoverInt(int id)
         {
             throw new NotImplementedException();
         }
@@ -102,6 +116,16 @@ namespace Bulky.Domain.Services
         }
 
         public Task<int> UpdateAsync(TEntity entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateRange(params TEntity[] entities)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateRangeAsync(params TEntity[] entities)
         {
             throw new NotImplementedException();
         }
