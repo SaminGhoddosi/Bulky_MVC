@@ -1,0 +1,44 @@
+﻿@model List<Book>
+
+<div class="container">
+    <div class="row pt-4 pb-3">
+        <div class="col-6">
+            <h2 class="text-primary">
+                Product List
+            </h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-action="Upsert" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i>
+                Create New Product
+            </a>
+        </div>
+    </div>
+
+    <table id="tblData" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    ISBN
+                </th>
+                <th>
+                    Author
+                </th>
+                <th>
+                    ListPrice
+                </th>
+                <th>
+                     Category 
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section Scripts{
+    <script src="~/js/product.js"></script>
+}
