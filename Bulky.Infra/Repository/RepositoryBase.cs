@@ -79,19 +79,7 @@ namespace Bulky.DataAccess.Repository
 
         public async Task<int> ExecuteSqlAsync(string sql)
         {
-            using var transaction = await _dbContext.Database.BeginTransactionAsync();
-
-            try
-            {
-                var result = await _dbContext.Database.ExecuteSqlRawAsync(sql);
-                await transaction.CommitAsync();
-                return result;
-            }
-            catch
-            {
-                await transaction.RollbackAsync();
-                throw;
-            }
+            return await _dbContext.Database.ExecuteSqlRawAsync(sql);
         }
 
         public async Task<TEntity> FirstAsync(ISpecification<TEntity> spec)
