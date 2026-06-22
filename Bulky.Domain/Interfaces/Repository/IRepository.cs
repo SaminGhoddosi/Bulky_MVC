@@ -20,15 +20,12 @@ namespace Bulky.Domain.Interfaces.Repository
         Task<int> CountAsync(ISpecification<TEntity> spec);
         Task<TEntity> FirstAsync(ISpecification<TEntity> spec);
         Task<TEntity> FirstOrDefaultAsync(ISpecification<TEntity> spec);
-        void Seed(IEnumerable<TEntity> data);
-        void DetachLocal(Func<TEntity, bool> predicate);
         void DetachAll();
-        int ExecuteSql(string sql);
+        Task<int> ExecuteSqlAsync(string sql);
         Task<IEnumerable<TEntity>> Buscar(Expression<Func<TEntity, bool>> predicate);
         Task RemoverInt(int id);
         Task UpdateRangeAsync(params TEntity[] entities);
         Task AddRangeAsync(params TEntity[] entities);
-        void UpdateRange(params TEntity[] entities);
-        void AddRange(params TEntity[] entities);
+        IQueryable<TEntity> ApplySpecification(ISpecification<TEntity> spec);
     }
 }

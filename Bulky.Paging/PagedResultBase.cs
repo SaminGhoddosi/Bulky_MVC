@@ -1,4 +1,6 @@
-﻿namespace Bulky.Paging
+﻿using Bulky.Paging;
+
+namespace Bulky.Paging
 {
     public abstract class PagedResultBase
     {
@@ -26,4 +28,26 @@
         public IList<T> Results { get; set; } = new List<T>();
         public IList<T> Data { get; set; } = new List<T>();
     }
+    
+    public static class PagedExtensions
+    {
+        public static PagedResult<T> GetPaged<T>(this IQueryable<T> query,
+                                 int page, int pageSize) where T : class
+        {
+            var result = new PagedResult<T>();
+            result.CurrentPage = page;
+            result.PageSize = pageSize;
+            result.RowCount = query.Count();
+
+            var pageCount = (double)result.RowCount / pageSize;
+            result.PageCount = (int)Math.Ceiling(pageCount);
+
+            var skip = (page - 1) * pageSize;
+            result.Results = query.Skip(skip).Take(pageSize).ToList();
+
+            return result;
+        }
+    }
+
+
 }

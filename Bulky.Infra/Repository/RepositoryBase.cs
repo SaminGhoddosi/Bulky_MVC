@@ -1,8 +1,10 @@
 ﻿using Ardalis.Specification;
+using Ardalis.Specification.EntityFrameworkCore;
 using Bulky.DataAcess.Data;
 using Bulky.Domain.Interfaces.Models;
 using Bulky.Domain.Interfaces.Repository;
 using Bulky.Paging;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,121 +15,149 @@ using System.Threading.Tasks;
 
 namespace Bulky.DataAccess.Repository
 {
-    public class RepositoryBase<TEntity> : IDisposable, IRepository<TEntity> where TEntity : IEntity
+    public class RepositoryBase<TEntity> : IDisposable, IRepository<TEntity> where TEntity : class, IEntity
     {
-        public Task<TEntity> AddAsync(TEntity entity)
+        protected readonly AppDbContext _dbContext;
+        protected readonly DbSet<TEntity> _dbContextSet;
+
+        public RepositoryBase(AppDbContext dbContext)
         {
-            throw new NotImplementedException();
+            _dbContext = dbContext;
+            _dbContextSet = _dbContext.Set<TEntity>();
+        }
+        public async Task<TEntity> AddAsync(TEntity entity)
+        {
+             await _dbContext.Set<TEntity>().AddAsync(entity);
+             await _dbContext.SaveChangesAsync();
+             return entity;
         }
 
-        public void AddRange(params TEntity[] entities)
+
+        public async Task AddRangeAsync(params TEntity[] entities)
         {
-            throw new NotImplementedException();
+            if (entities.Any())
+            {
+                await Task.Run(() => _dbContext.AddRangeAsync(entities));
+            }
         }
 
-        public Task AddRangeAsync(params TEntity[] entities)
+        public async Task BulkInsertAsync(IList<TEntity> entities)
         {
-            throw new NotImplementedException();
+            await _dbContext.AddRangeAsync(entities);
         }
 
-        public Task BulkInsertAsync(IList<TEntity> entities)
+        public async Task<IEnumerable<TEntity>> Buscar(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return await _dbContextSet.AsNoTracking().Where(predicate).ToListAsync();
         }
 
-        public Task<IEnumerable<TEntity>> Buscar(Expression<Func<TEntity, bool>> predicate)
+        public async Task<int> CountAsync(ISpecification<TEntity> spec)
         {
-            throw new NotImplementedException();
+            var specificationResult = ApplySpecification(spec);
+            return await specificationResult.CountAsync();
         }
 
-        public Task<int> CountAsync(ISpecification<TEntity> spec)
+        public async Task<int> DeleteAsync(TEntity entity)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> DeleteAsync(TEntity entity)
-        {
-            throw new NotImplementedException();
+            DetachAll();
+            _dbContextSet.Remove(entity);
+            return await _dbContext.SaveChangesAsync();
         }
 
         public void DetachAll()
         {
-            throw new NotImplementedException();
-        }
-
-        public void DetachLocal(Func<TEntity, bool> predicate)
-        {
-            throw new NotImplementedException();
+            foreach(var entry in _dbContext.ChangeTracker.Entries().ToList())
+            {
+                _dbContext.Entry(entry.Entity).State = EntityState.Detached;
+            }
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _dbContext.Dispose();
         }
 
-        public int ExecuteSql(string sql)
+        public async Task<int> ExecuteSqlAsync(string sql)
         {
-            throw new NotImplementedException();
+            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+
+            try
+            {
+                var result = await _dbContext.Database.ExecuteSqlRawAsync(sql);
+                await transaction.CommitAsync();
+                return result;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
 
-        public Task<TEntity> FirstAsync(ISpecification<TEntity> spec)
+        public async Task<TEntity> FirstAsync(ISpecification<TEntity> spec)
         {
-            throw new NotImplementedException();
+            var specificationResult = ApplySpecification(spec);
+            return await specificationResult.FirstAsync();
         }
 
-        public Task<TEntity> FirstOrDefaultAsync(ISpecification<TEntity> spec)
+        public async Task<TEntity> FirstOrDefaultAsync(ISpecification<TEntity> spec)
         {
-            throw new NotImplementedException();
+            var specificationResult = ApplySpecification(spec);
+            return await specificationResult.FirstAsync();
         }
 
-        public Task<TEntity> GetByIdAsync(int id)
+        public async Task<TEntity> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Set<TEntity>().FindAsync(id);
         }
 
-        public Task<IEnumerable<TEntity>> ListAllAsync()
+        public async Task<IEnumerable<TEntity>> ListAllAsync()
         {
-            throw new NotImplementedException();
+            return await _dbContext.Set<TEntity>().ToListAsync();
         }
 
         public Task<PagedResult<TEntity>> ListAllPagedAsync(int page, int pageSize)
         {
-            throw new NotImplementedException();
+            var list = _dbContext.Set<TEntity>().GetPaged(page, pageSize);
+            return Task.FromResult(list);
         }
 
-        public Task<IEnumerable<TEntity>> ListAsync(ISpecification<TEntity> spec)
+        public async Task<IEnumerable<TEntity>> ListAsync(ISpecification<TEntity> spec)
         {
-            throw new NotImplementedException();
+            var specificationResult = ApplySpecification(spec);
+            return await specificationResult.ToListAsync();
         }
 
-        public Task<PagedResult<TEntity>> ListPagedAsync(ISpecification<TEntity> spec, int page, int pageSize)
+        public async Task<PagedResult<TEntity>> ListPagedAsync(ISpecification<TEntity> spec, int page, int pageSize)
         {
-            throw new NotImplementedException();
+            var specificationResult = ApplySpecification(spec);
+            return await Task.FromResult(specificationResult.GetPaged(page, pageSize));
         }
 
-        public Task RemoverInt(int id)
+        public IQueryable<TEntity> ApplySpecification(ISpecification<TEntity> spec)
         {
-            throw new NotImplementedException();
+            return SpecificationEvaluator.Default.GetQuery(_dbContextSet.AsQueryable(), spec);
         }
 
-        public void Seed(IEnumerable<TEntity> data)
+        public async Task RemoverInt(int id)
         {
-            throw new NotImplementedException();
+            var obj = _dbContextSet.Find(id);
+            _dbContextSet.Remove(obj);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public Task<int> UpdateAsync(TEntity entity)
+        public async Task<int> UpdateAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            return await _dbContext.SaveChangesAsync();
         }
 
-        public void UpdateRange(params TEntity[] entities)
+        public async Task UpdateRangeAsync(params TEntity[] entities)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateRangeAsync(params TEntity[] entities)
-        {
-            throw new NotImplementedException();
+            if (entities.Any())
+            {
+                await Task.Run(() => _dbContext.UpdateRange(entities));
+            }
         }
     }
 }
