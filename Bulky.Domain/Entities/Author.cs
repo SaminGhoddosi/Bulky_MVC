@@ -13,6 +13,6 @@ namespace Bulky.Domain.Entities
         public DateTime BirthDate { get; set; }
         public ICollection<Book>? Books { get; set; } = new List<Book>();
         public int PublishHouseId { get; set; }
-        public PublishingHouse? publishingHouse { get; set; }
+        public PublishingHouse? PublishingHouse { get; set; }
     }
 }
