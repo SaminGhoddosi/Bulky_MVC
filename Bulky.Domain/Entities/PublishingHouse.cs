@@ -11,6 +11,6 @@ namespace Bulky.Domain.Entities
     {
         public string Name { get; set; } 
         public decimal? MarketValue { get; set; }
-        public IEnumerable <Author>? Authors { get; set; }
+        public ICollection<Author>? Authors { get; set; }
     }
 }
