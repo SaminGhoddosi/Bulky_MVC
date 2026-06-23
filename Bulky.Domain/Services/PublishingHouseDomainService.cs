@@ -11,7 +11,7 @@ namespace Bulky.Domain.Services
 {
     public class PublishingHouseDomainService : DomainService<PublishingHouse>, IPublishingHouseDomainService
     {
-        public IPublishHouseRepository _repository;
+        private readonly IPublishHouseRepository _repository;
 
         public PublishingHouseDomainService(IPublishHouseRepository repository) : base(repository)
         {

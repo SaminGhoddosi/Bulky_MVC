@@ -15,7 +15,7 @@ namespace Bulky.Domain.Services
     public class DomainService<TEntity> : IDisposable, IDomainService<TEntity> where TEntity : IEntity
     {
         private readonly IRepository<TEntity> _repository;
-
+         
         public DomainService(IRepository<TEntity> repository)
         {
             _repository = repository;

@@ -11,6 +11,8 @@ namespace Bulky.Domain.Entities
     {
         public string Name { get; set; }
         public DateTime BirthDate { get; set; }
+        public ICollection<Book>? Books { get; set; } = new List<Book>();
+        public int PublishHouseId { get; set; }
         public PublishingHouse? publishingHouse { get; set; }
     }
 }

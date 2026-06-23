@@ -1,6 +1,6 @@
-﻿using Bulky.DataAccess.Repository.IRepository;
-using Bulky.DataAcess.Data;
+﻿using Bulky.DataAcess.Data;
 using Bulky.Domain.Entities;
+using Bulky.Domain.Interfaces.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,18 +10,10 @@ using System.Threading.Tasks;
 
 namespace Bulky.DataAccess.Repository
 {
-    public class CategoryRepository : Repository<Category>, ICategoryRepository
+    public class CategoryRepository : RepositoryBase<Category>, ICategoryRepository
     {
-        private ApplicationDbContext _db;
-        public CategoryRepository(ApplicationDbContext db) : base(db)
-        {
-            _db = db;
-        }
-
-
-        public void Update(Category obj)
-        {
-            _db.Categories.Update(obj);
+        public CategoryRepository(AppDbContext db) : base(db)
+        {           
         }
     }
 
