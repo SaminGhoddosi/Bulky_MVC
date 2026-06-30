@@ -15,14 +15,7 @@ namespace Bulky.Domain
 {
     public class DomainAutoConfig
     {
-        private readonly ILogger<DomainAutoConfig> _logger;
-
-        public DomainAutoConfig(ILogger<DomainAutoConfig> logger)
-        {
-            _logger = logger;
-        }
-
-        public IServiceCollection ConfigureServices(IServiceCollection services, IConfiguration configuration)
+        public IServiceCollection ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IAuthorDomainService, AuthorDomainService>();
             services.AddScoped<IBookDomainService, BookDomainService>();
