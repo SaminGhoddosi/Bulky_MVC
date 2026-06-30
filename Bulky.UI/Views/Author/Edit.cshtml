@@ -1,0 +1,21 @@
+@model Bulky.Models.ViewModels.AuthorViewModel
+
+<div class="container">
+    <h2>Edit Author</h2>
+    <form asp-action="Edit" method="post">
+        <input asp-for="Author.Id" type="hidden" />
+        <div class="mb-3">
+            <label asp-for="Author.Name" class="form-label"></label>
+            <input asp-for="Author.Name" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Author.BirthDate" class="form-label"></label>
+            <input asp-for="Author.BirthDate" type="date" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Author.PublishHouseId" class="form-label"></label>
+            <select asp-for="Author.PublishHouseId" asp-items="@Model.PublishingHouseList" class="form-select"></select>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>

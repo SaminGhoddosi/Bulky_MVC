@@ -1,0 +1,17 @@
+@model Bulky.Domain.Entities.PublishingHouse
+
+<div class="container">
+    <h2>Edit Publishing House</h2>
+    <form asp-action="Edit" method="post">
+        <input asp-for="Id" type="hidden" />
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="MarketValue" class="form-label"></label>
+            <input asp-for="MarketValue" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>
