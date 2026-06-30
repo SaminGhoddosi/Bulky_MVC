@@ -1,5 +1,4 @@
 using Bulky.DataAccess.Repository;
-using Bulky.DataAccess.Repository.IRepository;
 using Bulky.DataAcess.Data;
 using Microsoft.EntityFrameworkCore;
 

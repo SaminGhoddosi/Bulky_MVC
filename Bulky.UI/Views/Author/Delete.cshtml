@@ -1,0 +1,15 @@
+@model Bulky.Domain.Entities.Author
+
+<div class="container">
+    <h2>Delete Author</h2>
+    <div>
+        <h4>@Model.Name</h4>
+        <p>@Model.BirthDate.ToShortDateString()</p>
+        <p>@Model.PublishingHouse?.Name</p>
+    </div>
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
